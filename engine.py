@@ -1,6 +1,8 @@
+import time, itertools
+
 class words:
     class fun:
-        def find ( array, findc ):  #Outputs if true then position.
+        def find ( array, findc ):                                  #Outputs if true then position.
             auth = False
             tick = 0
             for x in array:
@@ -9,7 +11,7 @@ class words:
                 tick+= 1
             return [auth, tick]
 
-        def dfind ( dic, findc ):   #Outputs if true then position.
+        def dfind ( dic, findc ):                                   #Outputs if true then position.
             auth = False
             tick = 0
             for x in dic:
@@ -19,8 +21,8 @@ class words:
             return [auth, tick]
 
         def prog( x, outOf, size=40, char="/", brackets=True, brackeType = "<>" ):
-            per = ( ( x ) / outOf )                       #Percentage of shaded in
-            charA = ( ( per ) * size )                    #Undertale :D
+            per = ( ( x ) / outOf )                                 #Percentage of shaded in
+            charA = ( ( per ) * size )                              #Undertale :D
             charA = int ( charA )
             string = ""
             for x in range(charA):string += char
@@ -28,8 +30,6 @@ class words:
             if brackets: string = brackeType[0] + string + brackeType[1]
 
             return string
- 
-    import time
 
     timePerWord = 5
     timePerRefresh = 5
@@ -41,7 +41,7 @@ class words:
         f = open ( "words.txt", "rb" )
         fd = f.read()
         f.close()
-        del f                                                       #saves a byte of memory or so...
+        del f                                                       #saves a pointer of memory or so...
         print ( "Success!" )
         try:
             print ( "Decoding" )
@@ -64,33 +64,35 @@ class words:
                     while tt + timePerWord >= time.time():
                         try:
                             wordl[len(y)].append(y)                 #Sorting into word lenghs
-                            auth = True
-                            break                                   #This helps as the computer will
+                            auth = True;
+                            break;                                   #This helps as the computer will
                         except IndexError:                          #only look in the lenghs of the
-                            wordl.append([])                        #word and not all of the arrat
+                            wordl.append([]);                        #word and not all of the array
                                                                     #which ultimatley optimises the code :D
                     if not auth:
-                        raise NameError("Word took too long")
+                        raise NameError("Word took too long");
 
-                    tick += 1
+                    tick += 1;
                     if tttt < time.time():
-                        tttt = time.time() + timePerRefresh
-                        print ( "\n" * 50)
-                        print ( fun.prog(tick, prog), str( round( tick * 100 / prog, 2 ) ) + "%" )
+                        tttt = time.time() + timePerRefresh;
+                        print ( "\n" * 50);
+                        print ( fun.prog(tick, prog), str( round( tick * 100 / prog, 2 ) ) + "%" );
                 
                 except NameError as e:
-                    if not shhh:
-                        print ( "Error with word:", x )
-                    errorLog.append([e,x])
+                    if not shhh: print ( "Error with word:", x );
+                    errorLog.append([e,x]);
                 except Exception as e:
-                    errorLog.append([e,x])
+                    errorLog.append([e,x]);
                 
             del fd                                                  #Spares some memory from dictslib. I don't really need file data.
-            print ( "Success :D" )
+            print ( "Success :D" );
         except:
-            print ( "Decoding and Sorting Failed" )
+            print ( "Decoding and Sorting Failed" );
     except:
-        print ( "Reading Failed" )
+        print ( "Reading Failed" );
+
+class math(): pass;
+
 
 ##Yes/ No interface
 def yn(ss="Y/N> "):
@@ -103,10 +105,9 @@ def menu():
     return """
 1. Numbers round.
 2. Words round.""";
-
-while True:
-    print ( menu() );
-    yn();
+##while True:  ##Commented out for testing.
+##    print ( menu() );
+##    yn();
     
 
 
