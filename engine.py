@@ -1,69 +1,68 @@
-import time, itertools
+import time, itertools;
 
 class words:
     class fun:
         def find ( array, findc ):                                  #Outputs if true then position.
-            auth = False
-            tick = 0
+            auth = False;
+            tick = 0;
             for x in array:
-                auth = auth or x == findc
-                if auth: break
-                tick+= 1
-            return [auth, tick]
+                auth = auth or x == findc;
+                if auth: break;
+                tick+= 1;
+            return [auth, tick];
 
         def dfind ( dic, findc ):                                   #Outputs if true then position.
-            auth = False
-            tick = 0
+            auth = False;
+            tick = 0;
             for x in dic:
-                auth = auth or dic[x] == findc
-                if auth: break
-                tick+= 1
-            return [auth, tick]
+                auth = auth or dic[x] == findc;
+                if auth: break;
+                tick+= 1;
+            return [auth, tick];
 
         def prog( x, outOf, size=40, char="/", brackets=True, brackeType = "<>" ):
-            per = ( ( x ) / outOf )                                 #Percentage of shaded in
-            charA = ( ( per ) * size )                              #Undertale :D
-            charA = int ( charA )
-            string = ""
-            for x in range(charA):string += char
-            for x in range( size - charA ):string += " "
-            if brackets: string = brackeType[0] + string + brackeType[1]
+            per = ( ( x ) / outOf );                                 #Percentage of shaded in
+            charA = ( ( per ) * size );                              #Undertale :D
+            charA = int ( charA );
+            string = "";
+            for x in range(charA):string += char;
+            for x in range( size - charA ):string += " ";
+            if brackets: string = brackeType[0] + string + brackeType[1];
+            return string;
 
-            return string
-
-    timePerWord = 5
-    timePerRefresh = 5
-    errorLog = []
-    shhh = False
+    timePerWord = 5;
+    timePerRefresh = 5;
+    errorLog = [];
+    shhh = False;
 
     try:
-        print ( "Reading" )
-        f = open ( "words.txt", "rb" )
-        fd = f.read()
-        f.close()
-        del f                                                       #saves a pointer of memory or so...
-        print ( "Success!" )
+        print ( "Reading" );
+        f = open ( "words.txt", "rb" );
+        fd = f.read();
+        f.close();
+        del f;                                                       #saves a pointer of memory or so...
+        print ( "Success!" );
         try:
-            print ( "Decoding" )
-            fd = fd.decode().lower().split("\r\n")                  #decoding from UTF-8 to string and splitting into actual words
-            wordl = []
+            print ( "Decoding" );
+            fd = fd.decode().lower().split("\r\n");                  #decoding from UTF-8 to string and splitting into actual words
+            wordl = [];
 
-            print ( "Success!")
-            tttt = time.time() + timePerRefresh
-            tick = 0
-            print ( "Sorting")
-            prog = len ( fd )
+            print ( "Success!");
+            tttt = time.time() + timePerRefresh;
+            tick = 0;
+            print ( "Sorting");
+            prog = len ( fd );
             for x in fd:
                 try:
                     try:
-                        y = x.lower()                               #Removes capitals that would mess up future code. 
+                        y = x.lower();                               #Removes capitals that would mess up future code. 
                     except: pass                                    #Better safe than sorry
                 
-                    tt = time.time()                                #Unknown Hangs :( Program will skips some words
+                    tt = time.time();                                #Unknown Hangs :( Program will skips some words
                     auth = False
                     while tt + timePerWord >= time.time():
                         try:
-                            wordl[len(y)].append(y)                 #Sorting into word lenghs
+                            wordl[len(y)].append(y);                 #Sorting into word lenghs
                             auth = True;
                             break;                                   #This helps as the computer will
                         except IndexError:                          #only look in the lenghs of the
@@ -110,8 +109,13 @@ def menu():
 ##    yn();
     
 
-
-
+##Generate signs
+signs = "+-/*";
+i = 0;
+while i != 4:
+    for x in itertools.permutations(signs, i):
+        print ( x );
+    i += 1;
 
 
 
