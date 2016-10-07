@@ -2,7 +2,7 @@ import time, itertools;
 
 class words:
     class fun:
-        def find ( array, findc ):                                  #Outputs if true then position.
+        def find ( array, findc ):                                      #Outputs if true then position.
             auth = False;
             tick = 0;
             for x in array:
@@ -11,7 +11,7 @@ class words:
                 tick+= 1;
             return [auth, tick];
 
-        def dfind ( dic, findc ):                                   #Outputs if true then position.
+        def dfind ( dic, findc ):                                       #Outputs if true then position.
             auth = False;
             tick = 0;
             for x in dic:
@@ -21,8 +21,8 @@ class words:
             return [auth, tick];
 
         def prog( x, outOf, size=40, char="/", brackets=True, brackeType = "<>" ):
-            per = ( ( x ) / outOf );                                 #Percentage of shaded in
-            charA = ( ( per ) * size );                              #Undertale :D
+            per = ( ( x ) / outOf );                                    #Percentage of shaded in
+            charA = ( ( per ) * size );                                 #Undertale :D
             charA = int ( charA );
             string = "";
             for x in range(charA):string += char;
@@ -40,11 +40,11 @@ class words:
         f = open ( "words.txt", "rb" );
         fd = f.read();
         f.close();
-        del f;                                                       #saves a pointer of memory or so...
+        del f;                                                          #saves a pointer of memory or so...
         print ( "Success!" );
         try:
             print ( "Decoding" );
-            fd = fd.decode().lower().split("\r\n");                  #decoding from UTF-8 to string and splitting into actual words
+            fd = fd.decode().lower().split("\r\n");                     #decoding from UTF-8 to string and splitting into actual words
             wordl = [];
 
             print ( "Success!");
@@ -55,19 +55,19 @@ class words:
             for x in fd:
                 try:
                     try:
-                        y = x.lower();                               #Removes capitals that would mess up future code. 
-                    except: pass                                    #Better safe than sorry
+                        y = x.lower();                                  #Removes capitals that would mess up future code. 
+                    except: pass                                        #Better safe than sorry
                 
-                    tt = time.time();                                #Unknown Hangs :( Program will skips some words
+                    tt = time.time();                                   #Unknown Hangs :( Program will skips some words
                     auth = False
                     while tt + timePerWord >= time.time():
                         try:
-                            wordl[len(y)].append(y);                 #Sorting into word lenghs
+                            wordl[len(y)].append(y);                    #Sorting into word lenghs
                             auth = True;
-                            break;                                   #This helps as the computer will
-                        except IndexError:                          #only look in the lenghs of the
-                            wordl.append([]);                        #word and not all of the array
-                                                                    #which ultimatley optimises the code :D
+                            break;                                      #This helps as the computer will
+                        except IndexError:                              #only look in the lenghs of the
+                            wordl.append([]);                           #word and not all of the array
+                                                                        #which ultimatley optimises the code :D
                     if not auth:
                         raise NameError("Word took too long");
 
@@ -83,7 +83,7 @@ class words:
                 except Exception as e:
                     errorLog.append([e,x]);
                 
-            del fd                                                  #Spares some memory from dictslib. I don't really need file data.
+            del fd                                                      #Spares some memory from dictslib. I don't really need file data.
             print ( "Success :D" );
         except:
             print ( "Decoding and Sorting Failed" );
@@ -110,12 +110,42 @@ def menu():
     
 
 ##Generate signs
-signs = "+-/*";
+##       + - * /
+signs = [1,2,3,4];
+numbs = [[1,2,3,4,5,6],7];
+hrn = {1:"+", 2:"-", 3:"*", 4:"/"};
+while True:
+    try:
+        hrm = {1:eval(input("1> ")), 2:eval(input("2> ")), 3:eval(input("3> ")), 4:eval(input("4> ")), 5:eval(input("5> ")), 6:eval(input("6> ")), 7:eval(input("Target> "))};
+        break
+    except:
+        pass;
+    
+sol = []
 i = 0;
-while i != 4:
-    for x in itertools.permutations(signs, i):
-        print ( x );
+while i != 6:
+    for x in itertools.permutations(numbs[0], i+1):
+        x = list( x );
+        for y in itertools.product(signs, repeat=i):
+            s = 0;
+            s += hrm[x[0]];
+            ii = 0;
+            while True:
+                try:
+                    if y[ii] == 1: s += hrm[x[ii+1]];
+                    if y[ii] == 2: s -= hrm[x[ii+1]];
+                    if y[ii] == 3: s = s * hrm[x[ii+1]];
+                    if y[ii] == 4: s = s / hrm[x[ii+1]];
+                except:
+                    break;
+                ii += 1;
+
+            if s == hrm[numbs[1]]:
+                sol.append([[ hrn[iii] for iii in y], [hrm[iii] for iii in x]]);
     i += 1;
+
+print ( "there are", len ( sol ),"solutions" );
+
 
 
 
