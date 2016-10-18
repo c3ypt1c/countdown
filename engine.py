@@ -147,7 +147,7 @@ while True:
             
         o = 0;
         oo = False;
-        
+        start = time.time()
         while True:
             if oo:
                 ntt = c[6] + o;
@@ -180,7 +180,8 @@ while True:
                     break;
             st+= "= " + str ( ntt );
             soll.append(st);
-            
+
+        print ( "Calculation took:", str( round(time.time() - start, 2) ) + "s" );
         if len( sol ) == 0:
             print ( "There are no solutions." );
         else:
