@@ -1,5 +1,14 @@
 import time, itertools;
 
+def getFromInternet(resourceURL):
+    import urllib;
+    from urllib import request;
+    f = request.urlopen(resourceURL);
+    fd = f.read();
+    f.close();
+    del f;
+    return fd
+
 class words:
     def prog( x, outOf, size=40, char="/", brackets=True, brackeType = "<>" ):
         per = ( ( x ) / outOf );                                    #Percentage of shaded in
@@ -10,30 +19,46 @@ class words:
         for x in range( size - charA ):string += " ";
         if brackets: string = brackeType[0] + string + brackeType[1];
         return string;
-    
+
+    def decodeAndSort(fd):
+        print ( "Decoding" );
+        try: fd = fd.decode();
+        except: pass;
+        fd = fd.lower().split("\r\n");                              #decoding from UTF-8 to string and splitting into actual words
+        dd = {};
+        for x in fd: dd[str(x)] = str(x);
+        print ( "Decoded successfully" );
+        suc = True;
+        del fd;
+        return dd;
+        
+    suc = False;                                                    #Weather it succeeded....
     timePerWord = 5;
-    timePerRefresh = 5;
+    timePerRefresh = 1;
     errorLog = [];
-    shhh = False;
+    web = "http://lukaszbaldy.ga/words.txt"
+    shhh = False;                                                   #Quiet mode...
 
     try:
-        print ( "Reading" );
+        print ( "Reading..." );
         f = open ( "words.txt", "rb" );
         fd = f.read();
         f.close();
         del f;                                                      #saves a pointer of memory or so...
         print ( "Success!" );
         try:
-            print ( "Decoding" );
-            fd = fd.decode().lower().split("\r\n");                 #decoding from UTF-8 to string and splitting into actual words
-            dd = {};
-            for x in fd: dd[str(x)] = str(x);
-            print ( "Success :D" );
-            del fd;
+            dd = decodeAndSort(fd);
+            suc = True;
         except:
-            print ( "Decoding and Sorting Failed" );
+            print ( "Decoding and Sorting Failed..." );
     except:
-        print ( "Reading Failed" );
+        print ( "Reading Failed... Trying Internet..." );
+        try:
+            dd = decodeAndSort(getFromInternet(web));
+            print ( "Internet method successful..." );
+            suc = True;
+        except:
+            print ("Internet method failed...");
 
     def find(dic, string):
         i = 9;
@@ -48,7 +73,7 @@ class words:
                 try: sol.append(dd[s]);
                 except: pass;
                 if tttt < time.time():
-                    tttt = time.time() + 5;
+                    tttt = time.time() + timePerRefresh;
                     print ( words.prog(o, t), str( round( o * 100 / t, 2 ) ) + "%", o, t )
                 o += 1;
             if i == 4:
@@ -76,8 +101,7 @@ class math():
             for x in itertools.permutations(numbs[0], i+1):
                 x = list( x );
                 for y in itertools.product(signs, repeat=i):
-                    s = 0;
-                    s += hrm[x[0]];
+                    s = 0 + hrm[x[0]];
                     ii = 0;
                     while True:
                         try:
@@ -95,22 +119,82 @@ class math():
         if len( sol ) != 0: return sol;
         else: return None;
 
-##def menu():
-##    return """
-##1. Numbers round.
-##2. Words round.""";
-##while True:  ##Commented out for testing.
-##    print ( menu() );
-##    yn();
-    
-##Letters it has...
+def menu(bo):
+    if bo:
+        return """
+1. Numbers round.
+2. Words round.""";
+    else:
+        return """
+1. Numbers round.
+x. Words round. (No dict)""";
+while True:
+    print ( menu(words.suc) );
+    c = input("1/2> ")
+    if c == "1":
+        print ( "Maths round... (Press Ctr+c to go back)" );
+        while True:
+            try:
+                c = []
+                for x in range(7):
+                    if x == 6:
+                        c.append(int(input("Target> ")));
+                    else:
+                        c.append(int(input(str(x+1)+"> ")));
+                break;
+            except:
+                pass;
+            
+        o = 0;
+        oo = False;
+        
+        while True:
+            if oo:
+                ntt = c[6] + o;
+                sol = math.countMath(c[0], c[1], c[2], c[3], c[4], c[5], ntt);
+                if sol != None:
+                    break;
+                else:
+                    print ( "No solutions found for", ntt ); 
+                oo = not oo;
+            else:
+                ntt = c[6] - o;
+                sol = math.countMath(c[0], c[1], c[2], c[3], c[4], c[5], ntt);
+                if sol != None:
+                    break;
+                else:
+                    o+= 1;
+                    print ( "No solutions found for", ntt ); 
+                
+                oo = not oo;               
+            
+        soll = [];
+        for x in sol:
+            i = 0;
+            st = "" + str(x[1][0]) + " ";
+            while True:
+                try:
+                    st += str (x[0][i]) + " " + str(x[1][i+1]) + " "; 
+                    i+= 1;
+                except:
+                    break;
+            st+= "= " + str ( ntt );
+            soll.append(st);
+            
+        if len( sol ) == 0:
+            print ( "There are no solutions." );
+        else:
+            if o != 0:
+                print ( "There are", len ( sol ), "solutions. Offset:", -c[6] + ntt );
+            else:
+                print ( "There are", len ( sol ), "solutions" );
+            print ( "Best solutions:" );
+            if len ( sol ) < 3:
+                for x in sol:
+                    print ( x );
+            else:
+                for x in range(3):
+                    print ( str ( x + 1 ) + ".", soll[x] );
 
-
-
-
-
-
-
-
-
+            print ( "View all?");
 
