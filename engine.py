@@ -197,5 +197,33 @@ while True:
                 for x in range(3):
                     print ( str ( x + 1 ) + ".", soll[x] );
 
-            print ( "View all?");
+            nn = False;
+            while True:
+                print ( "View all? (or number of solutions to view)");
+                try:
+                    c = input ( "y/n/0> ").lower();
+                    try:
+                        c = int ( c );
+                        nn = True;
+                    except:
+                        c = str ( c )[0];
+                        
+                    if c > len( soll ) and nn:
+                        nn = False;
+                        print ( c, "is bigger than", str ( len( soll ) ) + ". Do you expect the extra solutions to jump out of thin air?" );
+                    else:
+                        break;
+                except TypeError:
+                    break;
+                except:
+                    pass;
+                
+            if nn:
+                for x in range(c): print ( str ( x + 1 ) + ".", soll[x] );
+            elif c == "y":
+                for x in range( len( soll ) ): print ( str ( x + 1 ) + ".", soll[x] );
+            else:
+                pass;
+            
+            
 
