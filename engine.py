@@ -24,14 +24,15 @@ class words:
         print ( "Decoding" );
         try: fd = fd.decode();
         except: pass;
-        fd = fd.lower().split("\r\n");                              #decoding from UTF-8 to string and splitting into actual words
+        fd = fd.lower().split("\n");                                #decoding from UTF-8 to string and splitting into actual words
         dd = {};
         for x in fd: dd[str(x)] = str(x);
         print ( "Decoded successfully" );
         suc = True;
         del fd;
         return dd;
-        
+
+    fp = "words.txt";
     suc = False;                                                    #Weather it succeeded....
     timePerWord = 5;
     timePerRefresh = 1;
@@ -41,7 +42,7 @@ class words:
 
     try:
         print ( "Reading..." );
-        f = open ( "words.txt", "rb" );
+        f = open ( fp, "rb" );
         fd = f.read();
         f.close();
         del f;                                                      #saves a pointer of memory or so...
@@ -54,9 +55,19 @@ class words:
     except:
         print ( "Reading Failed... Trying Internet..." );
         try:
-            dd = decodeAndSort(getFromInternet(web));
+            import sys;
+            pathh = "";
+            for x in __file__.split("\\")[0:len(__file__.split("\\"))-1]: pathh+= x +"\\";
+            sys.path.append(str(pathh+"tools"))
+            import wordsRedo;
+            a2 = getFromInternet(web);
+            print ( "A2 Passed" );
+            a1 = wordsRedo.engine(a2);
+            print ( "A1 Passed" );
+            dd = decodeAndSort(a1);
             print ( "Internet method successful..." );
             suc = True;
+            
         except:
             print ("Internet method failed...");
 
@@ -135,7 +146,7 @@ while True:
         print ( "Maths round... (Press Ctr+c to go back)" );
         while True:
             try:
-                c = []
+                c = [];
                 for x in range(7):
                     if x == 6:
                         c.append(int(input("Target> ")));
@@ -147,7 +158,7 @@ while True:
             
         o = 0;
         oo = False;
-        start = time.time()
+        start = time.time();
         while True:
             if oo:
                 ntt = c[6] + o;
@@ -225,5 +236,6 @@ while True:
             else:
                 pass;
             
-            
+    elif c == "2":
+        pass;
 
