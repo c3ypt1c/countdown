@@ -1,4 +1,5 @@
-import time, itertools;
+import time, itertools, wrds;
+wsetComp = len(wrds.wset) != 0
 
 def getFromInternet(resourceURL):
     import urllib;
@@ -8,91 +9,6 @@ def getFromInternet(resourceURL):
     f.close();
     del f;
     return fd
-
-class words:
-    def prog( x, outOf, size=40, char="/", brackets=True, brackeType = "<>" ):
-        per = ( ( x ) / outOf );                                    #Percentage of shaded in
-        charA = ( ( per ) * size );                                 #Undertale :D
-        charA = int ( charA );
-        string = "";
-        for x in range(charA):string += char;
-        for x in range( size - charA ):string += " ";
-        if brackets: string = brackeType[0] + string + brackeType[1];
-        return string;
-
-    def decodeAndSort(fd):
-        print ( "Decoding" );
-        try: fd = fd.decode();
-        except: pass;
-        fd = fd.lower().split("\n");                                #decoding from UTF-8 to string and splitting into actual words
-        dd = {};
-        for x in fd: dd[str(x)] = str(x);
-        print ( "Decoded successfully" );
-        suc = True;
-        del fd;
-        return dd;
-
-    fp = "words.txt";
-    suc = False;                                                    #Weather it succeeded....
-    timePerWord = 5;
-    timePerRefresh = 1;
-    errorLog = [];
-    web = "http://lukaszbaldy.ga/words.txt"
-    shhh = False;                                                   #Quiet mode...
-
-    try:
-        print ( "Reading..." );
-        f = open ( fp, "rb" );
-        fd = f.read();
-        f.close();
-        del f;                                                      #saves a pointer of memory or so...
-        print ( "Success!" );
-        try:
-            dd = decodeAndSort(fd);
-            suc = True;
-        except:
-            print ( "Decoding and Sorting Failed..." );
-    except:
-        print ( "Reading Failed... Trying Internet..." );
-        try:
-            import sys;
-            pathh = "";
-            for x in __file__.split("\\")[0:len(__file__.split("\\"))-1]: pathh+= x +"\\";
-            sys.path.append(str(pathh+"tools"))
-            import wordsRedo;
-            a2 = getFromInternet(web);
-            print ( "A2 Passed" );
-            a1 = wordsRedo.engine(a2);
-            print ( "A1 Passed" );
-            dd = decodeAndSort(a1);
-            print ( "Internet method successful..." );
-            suc = True;
-            
-        except:
-            print ("Internet method failed...");
-
-    def find(dic, string):
-        i = 9;
-        sol = [];
-        tttt = time.time() + 1;
-        o = 0;
-        t = math.exp(4) + math.exp(5) + math.exp(6) + math.exp(7) + math.exp(8) + math.exp(9);
-        while True:
-            for x in itertools.permutations(string, i):
-                s = "";
-                for y in x: s+= y;
-                try: sol.append(dd[s]);
-                except: pass;
-                if tttt < time.time():
-                    tttt = time.time() + timePerRefresh;
-                    print ( words.prog(o, t), str( round( o * 100 / t, 2 ) ) + "%", o, t )
-                o += 1;
-            if i == 4:
-                return None;
-            if len(sol) == 0:
-                i-= 1;
-            else:
-                return sol;
 
 class math():
     def exp(a):
@@ -140,7 +56,7 @@ def menu(bo):
 1. Numbers round.
 x. Words round. (No dict)""";
 while True:
-    print ( menu(words.suc) );
+    print ( menu(wsetComp) );
     c = input("1/2> ")
     if c == "1":
         print ( "Maths round... (Press Ctr+c to go back)" );
@@ -236,6 +152,6 @@ while True:
             else:
                 pass;
             
-    elif c == "2":
-        pass;
+    elif c == "2" and wsetComp:            
+        wrds.main()
 
